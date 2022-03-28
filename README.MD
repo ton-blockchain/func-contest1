@@ -14,7 +14,7 @@ We ask participants to not change the signature (number, order and types of argu
 
 ## How to submit
 
-Solutions should be submitted as tar archive which contain up to 5 files labeled `1.func`, `2.func`, `3.func`, `4.func`, `5.func` (each file represents a corresponding task). 
+Solutions should be submitted as tar archive which contain up to 5 files labeled `1.fc`, `2.fc`, `3.fc`, `4.fc`, `5.fc` (each file represents a corresponding task). 
 
 During compilation each file will be supplemented with a [stdlib - FunC standard library](https://github.com/newton-blockchain/ton/blob/master/crypto/smartcont/stdlib.fc). 
 
