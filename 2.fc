@@ -1,0 +1,51 @@
+{-
+
+TASK 2 - PROXY.
+
+The aim of proxy contract is to forward all messages to it's owner.
+
+In particular for each message A (except messages from owner itself) such contract
+should send the message B to owner with body which contains address of A's sender followed by A's message body in reference (child cell).
+
+The Toncoin value attached to the message should be equal A's value minus fees related to processing (computational and message forwarding fees).
+The owner address is stored in contract storage (it is guaranteed that storage contains owner address only).
+
+You may find useful https://ton.org/docs/#/smart-contracts/messages
+
+-}
+
+int equal_slices (slice a, slice b) asm "SDEQ";
+
+slice load_data () {
+  var ds = get_data().begin_parse();
+  return ds~load_msg_addr();
+}
+
+() save_data (slice owner_address) impure {
+  set_data(begin_cell().store_slice(owner_address).end_cell());
+}
+
+;; Parse sender address from incoming message
+(slice, int) parse_sender_address (cell in_msg_full) {
+  var cs = in_msg_full.begin_parse();
+  var flags = cs~load_uint(4);
+  slice sender_address = cs~load_msg_addr();
+  return (sender_address, flags);
+}
+
+;; testable
+() recv_internal (int balance, int msg_value, cell in_msg_full, slice in_msg_body) {
+  slice sender_address = parse_sender_address();
+  slice owner_address = load_data();
+  var msg = begin_cell()
+        .store_uint(0x10, 6)
+        .store_slice(sender_address)
+        .store_grams(0)
+        .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
+        .store_slice(owner_address)
+        .store_ref(in_msg_full)
+      .end_cell();
+   send_raw_message(msg, 0x64);
+   save_data(owner_address);
+  }
+}

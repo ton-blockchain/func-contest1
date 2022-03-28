@@ -1,0 +1,88 @@
+{-
+
+TASK 4 - HASHMAP STORAGE.
+
+* Add-new-entry message has the following structure:
+    * 32-bit unsigined `op` equal to 1
+    * 64-bit unsigned `query_id`
+    * 256-bit unsgined key
+    * 64-bit `valid_until` unixtime
+    * the rest slice is the value
+
+    Upon receipt of such a message, the contract must add a new key/value entry to its data.
+    Contract storage format is arbitrary, you are free to change it.
+
+* Remove-outdated message has the following stucture:
+    * 32-bit unsigined `op` equal to 1
+    * 64-bit unsigned `query_id`
+
+    Upon receipt of such a message, the contract must delete all otudated entries from its data (those with `valid_until` < now()).
+
+* For all other internal messages an error should be thrown
+
+* Get-method `get_key` accepts 256-bit unsignied key and should return `valid_until` integer and value data slice for this key.
+
+  If there is no entry for this key then an error should be thrown.
+
+* Tests will initially run with empty storage
+
+-}
+
+(cell, cell) load_data() {
+    slice ds = get_data().begin_parse();
+    if (ds.slice_bits() == 0) {
+        return (null(), null());
+    } else {
+        return (ds~load_dict(), ds~load_dict());
+    }
+}
+
+() save_data(cell data_dict, cell valid_until_dict) impure {
+    set_data(begin_cell().store_dict(data_dict).store_dict(valid_until_dict).end_cell());
+}
+
+;; testable
+() recv_internal(int balance, int msg_value, cell in_msg_full, slice in_msg_body) {
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+
+    (cell data_dict, cell valid_until_dict) = load_data();
+
+    if (op == 1) { ;; add new entry
+
+      int key = in_msg_body~load_uint(256);
+      int valid_until = in_msg_body~load_uint(64);
+      slice value = in_msg_body;
+
+      data_dict~udict_set(256, key, value);
+      valid_until_dict~udict_set_ref(256, key, begin_cell().store_uint(valid_until, 64).end_cell());
+    }
+
+    if (op == 2) { ;; remove outdated
+
+        int key = -1;
+         do {
+           (key, slice cs, int f) = valid_until.udict_get_next?(256, key);
+           if (f) {
+              int valid_until = cs~load_uint(64);
+              if (valid_until < now()) {
+                valid_until~udict_delete(256, key);
+                data_dict~udict_delete(256, key);
+              }
+           }
+         } until (~ f);
+
+    }
+
+    save_data(data_dict, valid_until_dict);
+}
+
+;; testable
+(int, slice) get_key(int key) method_id {
+    (cell data_dict, cell valid_until_dict) = load_data();
+
+    int valid_until = valid_until_dict~udict_get(key, 256)~load_uint(64);
+    slice value = data_dict~udict_get(key, 256).begin_parse();
+
+    return (valid_until, value);
+}
