@@ -1,6 +1,11 @@
 # Welcome to first FunC contest by TON Foundation
 
-There are five `.fc` files in the folder - `1.fc` represents the first task, `2.fc` represents the second task, and so on.
+There are five `.fc` files in the folder:
+1. [1.fc](1.fc) - First problem "Counter"
+2. [2.fc](2.fc) - Second problem "Proxy"
+3. [3.fc](3.fc) - Third problem "Address Memorizer"
+4. [4.fc](4.fc) - Fourth problem "Hashmaps"
+5. [5.fc](5.fc) - Fifth problem "Two-owner wallet"
 
 Each file has two parts:
 
@@ -16,7 +21,7 @@ We ask participants to not change the signature (number, order and types of argu
 
 Solutions should be submitted as tar archive which contain up to 5 files labeled `1.fc`, `2.fc`, `3.fc`, `4.fc`, `5.fc` (each file represents a corresponding task). 
 
-During compilation each file will be supplemented with a [stdlib - FunC standard library](https://github.com/newton-blockchain/ton/blob/master/crypto/smartcont/stdlib.fc). 
+Each file will be compiled with func from [main repository](https://github.com/newton-blockchain/ton/tree/master/crypto/func). During compilation each file will be supplemented with a [stdlib - FunC standard library](https://github.com/newton-blockchain/ton/blob/master/crypto/smartcont/stdlib.fc). 
 
 Each submission tarball should also contain `participant.json` with the following structure:
 ```
