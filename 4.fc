@@ -3,7 +3,7 @@
 TASK 4 - HASHMAP STORAGE.
 
 * Add-new-entry message has the following structure:
-    * 32-bit unsigined `op` equal to 1
+    * 32-bit unsigned `op` equal to 1
     * 64-bit unsigned `query_id`
     * 256-bit unsgined key
     * 64-bit `valid_until` unixtime
@@ -13,14 +13,14 @@ TASK 4 - HASHMAP STORAGE.
     Contract storage format is arbitrary, you are free to change it.
 
 * Remove-outdated message has the following stucture:
-    * 32-bit unsigined `op` equal to 2
+    * 32-bit unsigned `op` equal to 2
     * 64-bit unsigned `query_id`
 
     Upon receipt of such a message, the contract must delete all otudated entries from its data (those with `valid_until` < now()).
 
 * For all other internal messages an error should be thrown
 
-* Get-method `get_key` accepts 256-bit unsignied key and should return `valid_until` integer and value data slice for this key.
+* Get-method `get_key` accepts 256-bit unsigned key and should return `valid_until` integer and value data slice for this key.
 
   If there is no entry for this key then an error should be thrown.
 
