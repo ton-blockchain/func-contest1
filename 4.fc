@@ -10,6 +10,7 @@ TASK 4 - HASHMAP STORAGE.
     * the rest slice is the value
 
     Upon receipt of such a message, the contract must add a new key/value entry to its data.
+    Clarification: if the key already exists then the entry must be replaced.
     Contract storage format is arbitrary, you are free to change it.
 
 * Remove-outdated message has the following stucture:
