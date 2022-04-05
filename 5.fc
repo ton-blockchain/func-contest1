@@ -20,7 +20,7 @@ When wallet receive request signed by one owner it should store it in storage.
 
 When wallet receives the same request signed by another owner it should process request, that means send `msg_to_send` with `mode` in the same transaction it got second signature.
 
-If request is signed not by owner, contains incorrect signature or current time is higher than `valid_until`, request should be ignored (message should not be accepted).
+If message body does not corresponds to `MsgBody` type described above, request is signed not by owner, contains incorrect signature or current time is higher than `valid_until`, request should be ignored (message should not be accepted). Note: absence of `accept_message` and throwing (with exit_code > 1) before `accept_message` are the same for external messages (since will result in ignoring that external message by any validator).
 
 If the same request (regardless approved by one or both owners) is sent the second time it should be ignored.
 
