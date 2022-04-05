@@ -11,7 +11,7 @@ In particular:
   followed by valid MsgAddress, it should store obtained address in the storage.
 
 * when contract get internal message from any address with 32-bit unsigned `op` equal to 2 followed by some 64-bit unsigned `query_id`, it should response to sender with message with body containing:
-  1) 32-bit ungisned `op` equal to 3
+  1) 32-bit unsigned `op` equal to 3
   2) the same 64-bit unsigned `query_id`
   3) Manager's address
   4) Address which was memorized since last Manager request (empty address `addr_none` if there were no Manager request yet)
