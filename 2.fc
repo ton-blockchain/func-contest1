@@ -12,6 +12,8 @@ The owner address is stored in contract storage (it is guaranteed that storage c
 
 You may find useful https://ton.org/docs/#/smart-contracts/messages
 
+For messages from owner tests will check absence of outgoing messages.
+
 -}
 
 int equal_slices (slice a, slice b) asm "SDEQ";

@@ -17,13 +17,13 @@ TASK 4 - HASHMAP STORAGE.
     * 32-bit unsigined `op` equal to 2
     * 64-bit unsigned `query_id`
 
-    Upon receipt of such a message, the contract must delete all otudated entries from its data (those with `valid_until` < now()).
+    Upon receipt of such a message, the contract must delete all otudated entries from its data (those with `valid_until` < now()). Note, tests will not cover cases when messages contain valid `op=2`, `query_id` and then something else (that means that participants may handle such messages at their discretion).
 
-* For all other internal messages an error should be thrown
+* For all other internal messages an error (exit_code > 1) should be thrown
 
-* Get-method `get_key` accepts 256-bit unsignied key and should return `valid_until` integer and value data slice for this key.
+* Get-method `get_key` accepts 256-bit unsignied key and should return `valid_until` integer and value data slice for this key. Note: unixtime of running `get_key` method should not affect result.
 
-  If there is no entry for this key then an error should be thrown.
+  If there is no entry for this key then an error (exit_code > 1) should be thrown.
 
 * Tests will initially run with empty storage
 
@@ -78,7 +78,7 @@ TASK 4 - HASHMAP STORAGE.
     save_data(data_dict, valid_until_dict);
 }
 
-;; testable
+;; testable (but not gas-measured)
 (int, slice) get_key(int key) method_id {
     (cell data_dict, cell valid_until_dict) = load_data();
 
