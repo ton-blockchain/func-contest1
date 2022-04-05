@@ -53,6 +53,9 @@ Winners are determined as follows:
 
 * For evaluation of gas-usage each problem has a weight which in general inversely correlated with average gas-usage, thus 10 gas units optimization of the function which consume 100 gas units will be scored higher than 10 gas units optimization of the function which consume 10000 gas units.
 
+* Get methods will not be measured for gas usage: since such methods are executed locally, in contrast to on-chain execution, they are much less sensitive to gas consumption.
+Thus efficiency or inefficiency of get-methods will not affect the ranking (ofc if those getmethods are not called from testable functions)
+
 ## Docs
 
 We recommend participant to check out https://ton.org/docs in particular "Basic concepts" and "Smart Contracts" sections. 
