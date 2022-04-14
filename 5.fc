@@ -7,7 +7,7 @@ The aim of two owner wallet is to create smart-contract which send messages then
 TL-B schema of external message body accepted by wallet is as follows:
 ```
 request#_ valid_until:uint32 mode:uint8 msg_to_send:^Cell = Request;
-mdg_body#_ public_key:uint256 signature:(512 * Bit) request:^Request = MsgBody;
+msg_body#_ public_key:uint256 signature:(512 * Bit) request:^Request = MsgBody;
 ```
 
 Where `signature` signs `Request` cell with some private key and `public_key` is corresponding public key.
